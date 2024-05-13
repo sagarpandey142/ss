@@ -36,7 +36,7 @@ const Navbar = () => {
             </ul>
       
 
-        <div className='flex gap-10 mt-14'>
+        <div className='flex gap-10 mt-14 fixed'>
             <div className='flex items-center gap-3'>
                 <BsBagDashFill style={{color: '#7D0DC3' , fontSize: '24px'}}/>
                 <p className='font-bold text-2xl'>Projectpilot</p>

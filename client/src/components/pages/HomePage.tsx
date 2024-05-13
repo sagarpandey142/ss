@@ -4,7 +4,7 @@ import Image from 'next/image';
 const HomePage = () => {
     return (
         <div>
-            <div className='flex justify-center'>
+            <div className='flex justify-center mt-16'>
                 <div className='flex flex-row justify-evenly items-center w-3/4'>
                     <div className='flex flex-col w-1/2 gap-10'>
                         <p className='text-2xl font-bold'>Find a Project that suits your interest & skills.</p>

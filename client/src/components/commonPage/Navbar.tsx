@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className=" flex flex-col gap-4 text-gray-700 items-center">
      
         
-            <ul className="flex flex-row gap-6 items-center justify-center h-10 bg-gray-200 w-full ">
+            <ul className="flex flex-row text-sm gap-6 items-center justify-center h-10 bg-gray-200 w-full ">
                 <li className="">
                 <Link href="/">
                     <span className="">Home</span>

@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav className=" flex flex-col gap-4 text-gray-700 items-center">
      
         
-            <ul className="flex flex-row text-sm gap-6 items-center justify-center h-10 bg-gray-200 w-full ">
+            <ul className="flex flex-row text-sm gap-6 items-center justify-center h-10 bg-gray-200 w-full fixed top-0 left-0 right-0 z-10">
                 <li className="">
                 <Link href="/">
                     <span className="">Home</span>
@@ -36,7 +36,7 @@ const Navbar = () => {
             </ul>
       
 
-        <div className='flex gap-10'>
+        <div className='flex gap-10 mt-14'>
             <div className='flex items-center gap-3'>
                 <BsBagDashFill style={{color: '#7D0DC3' , fontSize: '24px'}}/>
                 <p className='font-bold text-2xl'>Projectpilot</p>

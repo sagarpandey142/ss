@@ -1,7 +1,7 @@
 // pages/signup.js
 'use client';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 
@@ -25,11 +25,12 @@ const SignUpPage = () => {
             <h1 className="block text-2xl font-bold text-gray-800">Sign up</h1>
             <p className="mt-2 text-sm text-gray-600">
               Already have an account?
-              <Link href="/signin">
-                <a className="text-blue-600 decoration-2 hover:underline font-medium">
-                  Sign in here
-                </a>
+
+              <Link href="/otp" passHref>
+                <a className="text-blue-600 decoration-2 hover:underline font-medium">Sign in here</a>
               </Link>
+
+              
             </p>
           </div>
 

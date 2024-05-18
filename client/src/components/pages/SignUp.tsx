@@ -11,10 +11,8 @@ const SignUpPage = () => {
 
  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Perform form submission logic here
-    router.push('/otp'); // Navigate to the OTP page after submission
+  const handleClick = () => {
+    router.push('/otp');
   };
 
   return (
@@ -26,9 +24,7 @@ const SignUpPage = () => {
             <p className="mt-2 text-sm text-gray-600">
               Already have an account?
 
-              <Link href="/otp" passHref>
-                <a className="text-blue-600 decoration-2 hover:underline font-medium">Sign in here</a>
-              </Link>
+              <button onClick={handleClick} className="text-blue-600 decoration-2 hover:underline font-medium">Sign in here</button>
 
               
             </p>
@@ -70,7 +66,7 @@ const SignUpPage = () => {
               Or
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form >
               <div className="grid gap-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm mb-2">
@@ -166,6 +162,7 @@ const SignUpPage = () => {
 
                 <button
                   type="submit"
+                  onClick={handleClick}
                   className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   Sign up

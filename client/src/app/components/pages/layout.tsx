@@ -1,7 +1,8 @@
 // _app.js or _app.tsx
 import "./globals.css";
 import { Inter } from "next/font/google";
-import {Toaster} from "react-hot-toast"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,10 +12,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  console.log("chil",children)
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster  />
+        <ToastContainer position="bottom-center" />
         {children}
       </body>
     </html>

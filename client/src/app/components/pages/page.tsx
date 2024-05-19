@@ -4,8 +4,8 @@ import 'tailwindcss/tailwind.css';
 import HomePage from "../../HomePage"
 import Page from "../PrivacyPolicy/page"
 import Footer from '../commonPage/Footer';
-import { Provider } from 'react-redux';
-import store from '../../Redux/Store/ConfigureStore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   return (
@@ -13,6 +13,7 @@ const Home = () => {
                <Navbar/>
                <HomePage/>
                <Footer/>
+              <ToastContainer/>
      </div>
   );
 };

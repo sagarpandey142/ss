@@ -13,7 +13,7 @@ const FetchProject=async()=>{
 export const FetchProjectById=async(id:String)=>{
     console.log("id",id)
      try{
-        const response=await axios.get(ProjectApiDetail.FetchProjectDescById,{id});
+        const response=await axios.post(ProjectApiDetail.FetchProjectDescById,{id});
         return response;
      } catch(error){
          console.log("error",error)

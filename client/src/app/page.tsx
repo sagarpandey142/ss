@@ -8,8 +8,8 @@ import Footer from './commonPage/Footer';
 const Home = () => {
   return (
      <div>
-              <Navbar/>
-               <Page/>
+               <Navbar/>
+               <HomePage/>
                <Footer/>
      </div>
   );

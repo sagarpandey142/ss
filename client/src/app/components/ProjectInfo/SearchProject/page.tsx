@@ -7,12 +7,12 @@ import { CiSearch } from "react-icons/ci";
 import { IoLocationSharp } from "react-icons/io5"
 import { MdMyLocation } from "react-icons/md";
 import { LuFilter } from "react-icons/lu";
-import PopularSearches from '../../ArrayUsable/PopularSearches';
-import FetchProject from "../../Services/ProjectHandler"
+import PopularSearches from '../../../ArrayUsable/PopularSearches';
+import FetchProject from "../../../Services/ProjectHandler"
 import MainCard from '../../commonPage/MainCard';
-import {IndustryArray,ProjectLength} from "../../ArrayUsable/IndustrySrray"
+import {IndustryArray,ProjectLength} from "../../../ArrayUsable/IndustrySrray"
 import { Checkbox, FormControlLabel } from "@mui/material";
-import  {SkillRequired} from "../../ArrayUsable/SkillArray"
+import  {SkillRequired} from "../../../ArrayUsable/SkillArray"
 import SkillButton from "../../commonPage/SkillButton";
 import Switch from '@mui/material/Switch';
 import Autosuggest from 'react-autosuggest';

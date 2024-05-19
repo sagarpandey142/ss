@@ -1,10 +1,11 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import {FetchProjectById} from "../../Services/ProjectHandler"
-import Navbar from '@/app/commonPage/Navbar'
+import {FetchProjectById} from "../../../Services/ProjectHandler"
+import Navbar from '@/app/components/commonPage/Navbar'
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
+import Footer from '../../commonPage/Footer'
 
 
 const page = () => {
@@ -97,7 +98,7 @@ const page = () => {
                     <p className=' text-2xl text-slate-900 font-bold'>Related Jobs</p>
                </div>
          </div>
-         <Navbar/>
+         <Footer/>
      </div>
   )
 }

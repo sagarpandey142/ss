@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'; // Import useRouter from Next.js
 import React, { useState } from 'react';
-import cardpic from "../../app/Assets/CardPic.jpg";
-import cardpic3 from "../../app/Assets/cardpic3.png";
+import cardpic from "../../../app/Assets/CardPic.jpg";
+import cardpic3 from "../../../app/Assets/cardpic3.png";
 import Image from 'next/image';
 import { Tilt } from "react-tilt";
 import { FaArrowRight } from "react-icons/fa";

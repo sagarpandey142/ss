@@ -2,7 +2,7 @@
 // Import necessary components and hooks from Next.js
 import Navbar from '../app/components/commonPage/Navbar';
 import 'tailwindcss/tailwind.css';
-import HomePage from "../app/components/pages/HomePage";
+import HomePage from "./HomePage";
 import ResetPassword from "../app/components/pages/ResetPassword";
 import SignIn from '../app/components/pages/SignIn';
 import SignUp from "../app/components/pages/SignUp";

@@ -1,6 +1,6 @@
 import React from 'react'
 import {BsBagDashFill} from "react-icons/bs"
-import { Candidate, Project, QuickLink, Support } from '../ArrayUsable/Footer'
+import { Candidate, Project, QuickLink, Support } from '../../ArrayUsable/Footer'
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io";

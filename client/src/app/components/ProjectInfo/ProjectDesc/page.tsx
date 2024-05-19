@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import {FetchProjectById} from "../../../Services/ProjectHandler"
+import {FetchProjectById} from "../../../Services/operations/ProjectHandler"
 import Navbar from '@/app/components/commonPage/Navbar'
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";

@@ -8,7 +8,7 @@ import { IoLocationSharp } from "react-icons/io5"
 import { MdMyLocation } from "react-icons/md";
 import { LuFilter } from "react-icons/lu";
 import PopularSearches from '../../../ArrayUsable/PopularSearches';
-import FetchProject from "../../../Services/ProjectHandler"
+import FetchProject from "../../../Services/operations/ProjectHandler"
 import MainCard from '../../commonPage/MainCard';
 import {IndustryArray,ProjectLength} from "../../../ArrayUsable/IndustrySrray"
 import { Checkbox, FormControlLabel } from "@mui/material";

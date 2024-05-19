@@ -1,5 +1,5 @@
 import axios from "axios"
-import {ProjectApiDetail} from "./Api"
+import {ProjectApiDetail} from "../Api"
 
 const FetchProject=async()=>{
     try{
@@ -10,7 +10,7 @@ const FetchProject=async()=>{
     }
 }
 
-export const FetchProjectById=async(id:String)=>{
+export const findProjectById=async(id:String)=>{
     console.log("id",id)
      try{
         const response=await axios.post(ProjectApiDetail.FetchProjectDescById,{id});

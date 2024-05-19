@@ -5,21 +5,25 @@ import {FetchProjectById} from "../../Services/ProjectHandler"
 import Navbar from '@/app/commonPage/Navbar'
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux'
+import { updateProjectDetail } from '@/app/Redux/Slices/ProjectDetails'
 
 const page = () => {
   const serachparam=useSearchParams();
+  const dispatch=useDispatch();
   const[projectData,setProjectData]=useState();
+  const {ProjectDetail}=useSelector((slices)=>slices.ProjectDetail)
   const recieveProjectDetail=async()=>{
        const BackendResponse=await FetchProjectById(serachparam.get("projectid"));
         if(BackendResponse){
-           setProjectData(BackendResponse.data.project)
+           dispatch(updateProjectDetail(BackendResponse.data.project))
         }
   }
   useEffect(()=>{
        recieveProjectDetail();
   },[])
-
-  console.log("daa",projectData)
+  
+ 
 
   return (
      <div className='w-full'> 
@@ -66,6 +70,18 @@ const page = () => {
                               <p className=' text-xl text-slate-600 font-bold flex gap-2'>More About <div className=' text-slate-900' > {projectData?.profileId?.name}</div></p>
                               <p className='text-slate-600 text-xl w-7/12'>{projectData?.profileId?.User_Bio}</p>
                          </div>
+                         <div className=' ml-3 mt-2 flex flex-col gap-2 border-[3px] border-slate-300 rounded-lg p-3 w-7/12'>
+                               <p className=' text-xl text-slate-900 font-bold flex items-center gap-2'> <FaArrowRight/> His Technical Skills</p>
+                               <div className=' flex gap-2 flex-wrap w-11/12'>
+                                    {
+                                        projectData?.profileId?.TechStack?.map((data,index)=>(
+                                              <div key={index} className=' bg-slate-300 p-2 px-3 rounded-lg text-green-800 font-semibold '>
+                                                     {data}
+                                              </div>
+                                        ))
+                                    }
+                               </div>
+                         </div>
                     </div>
                     <div>
                          <div>
@@ -78,6 +94,9 @@ const page = () => {
                                 <p>WorldWide</p>
                          </div>
                     </div>
+               </div>
+               <div className=' mt-10 flex justify-between '>
+                    <p className=' text-2xl text-slate-900 font-bold'>Related Jobs</p>
                </div>
          </div>
      </div>

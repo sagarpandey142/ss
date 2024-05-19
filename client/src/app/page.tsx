@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 
 
 
+
 const Home = () => {
   // Get the current pathname
   const pathname = usePathname();

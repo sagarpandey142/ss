@@ -5,18 +5,16 @@ import {FetchProjectById} from "../../Services/ProjectHandler"
 import Navbar from '@/app/commonPage/Navbar'
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
-import { useDispatch, useSelector } from 'react-redux'
-import { updateProjectDetail } from '@/app/Redux/Slices/ProjectDetails'
+
 
 const page = () => {
   const serachparam=useSearchParams();
-  const dispatch=useDispatch();
   const[projectData,setProjectData]=useState();
-  const {ProjectDetail}=useSelector((slices)=>slices.ProjectDetail)
+ 
   const recieveProjectDetail=async()=>{
        const BackendResponse=await FetchProjectById(serachparam.get("projectid"));
         if(BackendResponse){
-           dispatch(updateProjectDetail(BackendResponse.data.project))
+           setProjectData(BackendResponse.data.project)
         }
   }
   useEffect(()=>{
@@ -99,6 +97,7 @@ const page = () => {
                     <p className=' text-2xl text-slate-900 font-bold'>Related Jobs</p>
                </div>
          </div>
+         <Navbar/>
      </div>
   )
 }

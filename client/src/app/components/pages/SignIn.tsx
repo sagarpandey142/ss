@@ -15,6 +15,7 @@ const SignInPage = () => {
               name="email"
               type="email"
               autoComplete="email"
+              placeholder='Enter your Email Address'
               required
               className="mt-1 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             />
@@ -27,6 +28,7 @@ const SignInPage = () => {
               id="password"
               name="password"
               type="password"
+              placeholder='Please Enter Password'
               autoComplete="current-password"
               required
               className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-3"
@@ -40,7 +42,7 @@ const SignInPage = () => {
                 type="checkbox"
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label htmlFor="remember-me" className="ml-2 mr-5 block text-sm text-gray-900">
                 Remember me
               </label>
             </div>

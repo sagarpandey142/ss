@@ -1,8 +1,15 @@
 "use client"
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FetchProjectById, RemoveSavedProject, addSavedProject } from "../../../Services/ProjectHandler";
 import Navbar from '@/app/components/commonPage/Navbar';
+=======
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import {FetchProjectById} from "../../../Services/operations/ProjectHandler"
+import Navbar from '@/app/components/commonPage/Navbar'
+>>>>>>> 6cbcb772a81c175db2e1d3bcb61fff8d47bc7a5c
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from '../../commonPage/Footer';

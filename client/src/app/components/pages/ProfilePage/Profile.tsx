@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { setuserGithubData } from '../../../Redux/Slices/LinkReducer';
 import { FindByEmail} from '../../../Services/operations/ProfileHandler';
-import { DecodedTokenHandler } from '../../../services/operations/generate&verifyOTP';
+import { DecodedTokenHandler } from '../../../Services/operations/generateAndVerifyOTP';
 import { findProjectById } from '../../../Services/operations/ProjectHandler';
 import { RootState } from '../store';
 import { ProfileType, ProjectType } from '../types';

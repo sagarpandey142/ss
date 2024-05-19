@@ -1,18 +1,19 @@
-// pages/signup.js
 'use client';
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-
-
 const SignUpPage = () => {
   const router = useRouter();
 
- 
-
   const handleClick = () => {
-    router.push('/otp');
+    console.log("first");
+    router.push('/components/pages/OtpPage');
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    handleClick();
   };
 
   return (
@@ -23,10 +24,9 @@ const SignUpPage = () => {
             <h1 className="block text-2xl font-bold text-gray-800">Sign up</h1>
             <p className="mt-2 text-sm text-gray-600">
               Already have an account?
-
-              <button onClick={handleClick} className="text-blue-600 decoration-2 hover:underline font-medium">Sign in here</button>
-
-              
+              <button onClick={handleClick} className="text-blue-600 decoration-2 hover:underline font-medium">
+                Sign in here
+              </button>
             </p>
           </div>
 
@@ -66,7 +66,7 @@ const SignUpPage = () => {
               Or
             </div>
 
-            <form >
+            <form onSubmit={handleSubmit}>
               <div className="grid gap-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm mb-2">
@@ -162,8 +162,7 @@ const SignUpPage = () => {
 
                 <button
                   type="submit"
-                  onClick={handleClick}
-                  className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                  className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 "
                 >
                   Sign up
                 </button>

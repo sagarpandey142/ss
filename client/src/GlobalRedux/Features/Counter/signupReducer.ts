@@ -17,6 +17,7 @@ const signupSlice = createSlice({
         },
         updateSignupData: (state, action) => {
                 state.data= action.payload
+                console.log("state", state)
         },
         updateSkill: (state, action) => {
             state.skill = action.payload

@@ -3,9 +3,11 @@ import axios from 'axios'
 
 const { generateVerifyOTP } = require("../Api")
 
-export const generateOTP = async(email,purpose) => {
+export const generateOTP = async(email:string,purpose:string) => {
+    console.log("hello")
     try{
         const response = await axios.post(generateVerifyOTP.generateOTP, {Email: email,purpose})
+        console.log("response",response)
         
         return response;
     }catch(error){
@@ -13,14 +15,15 @@ export const generateOTP = async(email,purpose) => {
     }
 }
 
-export const verifyOTP = async(email, user_Otp) => {
+export const verifyOTP = async(email:string, user_Otp:string) => {
     
     try{
         const response = await axios.post(generateVerifyOTP.verifyOTP, {Email: email, user_Otp: user_Otp})
+        console.log("response", response)
     
         return response;
     }catch(error){
-        console.error("error", error.message)
+        console.error("error", error)
     }
 }
 

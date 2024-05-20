@@ -19,7 +19,7 @@ const Home = () => {
 
       <div>
         <SignUp />
-        <OtpPage/>
+     
       </div>
    
   );

@@ -1,6 +1,41 @@
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
+import { signupHandler } from '@/app/Services/operations/SignupHandler';
+import { toast } from 'react-toastify'; // If you're using react-toastify for notifications
 
 const CreateProfile = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    professional_role: '',
+    github_link: '',
+    linkedin_link: '',
+    tech_stack: '',
+    user_bio: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        
+        console.log("foemdata", formData)
+        
+      const response = await signupHandler(formData);
+      console.log("response", response);
+      if (response.success) {
+        toast.success('Profile created successfully');
+      } else {
+        toast.error('Failed to create profile');
+      }
+    } catch (error) {
+      toast.error('An error occurred while creating the profile');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full">
@@ -8,7 +43,7 @@ const CreateProfile = () => {
           <h1 className="text-2xl font-bold text-gray-800">Create Profile</h1>
         </div>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-600">Name</label>
             <input
@@ -18,6 +53,8 @@ const CreateProfile = () => {
               placeholder="Enter your name"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.name}
+              onChange={handleChange}
             />
           </div>
 
@@ -30,6 +67,8 @@ const CreateProfile = () => {
               placeholder="Enter your email"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.email}
+              onChange={handleChange}
             />
           </div>
 
@@ -42,6 +81,8 @@ const CreateProfile = () => {
               placeholder="Enter your professional role"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.professional_role}
+              onChange={handleChange}
             />
           </div>
 
@@ -54,6 +95,8 @@ const CreateProfile = () => {
               placeholder="Enter your GitHub link"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.github_link}
+              onChange={handleChange}
             />
           </div>
 
@@ -66,6 +109,8 @@ const CreateProfile = () => {
               placeholder="Enter your LinkedIn link"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.linkedin_link}
+              onChange={handleChange}
             />
           </div>
 
@@ -78,6 +123,8 @@ const CreateProfile = () => {
               placeholder="Enter your tech stack"
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
+              value={formData.tech_stack}
+              onChange={handleChange}
             />
           </div>
 
@@ -90,6 +137,8 @@ const CreateProfile = () => {
               className="mt-1 py-2 px-4 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               required
               rows={4}
+              value={formData.user_bio}
+              onChange={handleChange}
             />
           </div>
 

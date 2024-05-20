@@ -3,14 +3,17 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { generateOTP, verifyOTP } from '../../../Services/operations/generateAndVerifyOTP';
+import { RootState } from '@/GlobalRedux/store';
+import { useRouter } from 'next/navigation';
 // Import RootState type
 
 
 
 const OTPPage = () => {
+  const router = useRouter();
   const [otp, setOtp] = useState('');
-  console.log("firsttttt")
   const { data } = useSelector((state: RootState) => state.signup);
+  console.log("data", data)
   
   const handleOTPChange = (e) => {
     setOtp(e.target.value);
@@ -19,12 +22,15 @@ const OTPPage = () => {
   const email = data?.Email;
 
   const handleVerifyOtp = async (e) => {
+    console.log("hiii")
     e.preventDefault();
     // setLoading(true);
     const response = await verifyOTP(email, otp);
+    console.log("response", response)
     // setLoading(false);
     if (response) {
       console.log("OTP matched");
+      router.push('/components/pages/CreateProfile')
     } else {
       console.log("OTP does not match");
     }
@@ -33,7 +39,7 @@ const OTPPage = () => {
   const handleResend = async (e) => {
     e.preventDefault();
     try {
-      const response = await generateOTP(email);
+      const response = await generateOTP( email,'SignIn' );
       console.log("res", response);
       if (response.statusText === 'OK') {
         console.log('Verification email resent successfully.');
@@ -72,6 +78,7 @@ const OTPPage = () => {
 
               <button
                 type="submit"
+               
                 className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
               >
                 Verify OTP

@@ -20,4 +20,27 @@ export const findProjectById=async(id:String)=>{
      }
 }
 
+export const addSavedProject = async(email,_id) => {
+    try{
+        const response = await axios.post(ProjectApiDetail.addSavedProject,{Email:email, projectId:_id});
+        console.log("response of recent jobs", response);
+        if(response){
+            return response;
+        }
+    }catch(error){
+        console.log("error", error.message);
+    }
+}
+
+export const RemoveSavedProject = async(Email,ProjectId) => {
+    try{
+        const response = await axios.post(ProjectApiDetail?.RemoveSavedProject,{Email,ProjectId});
+        if(response){
+            return response;
+        }
+    }catch(error){
+        console.log("error", error.message);
+    }
+}
+
 export default FetchProject

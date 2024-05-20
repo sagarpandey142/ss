@@ -1,10 +1,13 @@
+import { UpdatePassword } from "./operations/ProfileHandler";
+
 // projectApi.ts
 const BACKEND_URL: string = "https://copart-r61c.onrender.com/";
 
 
 
 export const SignupRoute={
-  signup: BACKEND_URL + "v1/signup"
+  signup: BACKEND_URL + "v1/signup",
+  login: BACKEND_URL + "v1/login"
 }
 
 
@@ -27,4 +30,6 @@ export const ProjectApiDetail = {
 export const profileApiDetail={
   profileInfo:BACKEND_URL+"v1/FindByEmail" ,
   DecodedApi:BACKEND_URL+"v1/DecodToken",
+  FindIfEmailExistApi: BACKEND_URL + "v1/FindIfEmailExist",
+  UpdatePassword: BACKEND_URL + "v1/updatePassword",
 }

@@ -1,5 +1,5 @@
 // _app.js or _app.tsx
-import "./globals.css";
+import "./globals.css"
 import { Providers } from "../GlobalRedux/provider";
 import { Inter } from "next/font/google";
 import {Toaster} from "react-hot-toast"

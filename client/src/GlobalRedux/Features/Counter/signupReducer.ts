@@ -16,9 +16,11 @@ const signupSlice = createSlice({
             state.token= action.payload
         },
         updateSignupData: (state, action) => {
-                state.data= action.payload
-                console.log("state", state)
-        },
+            state.data = {
+              ...state.data,
+              ...action.payload,
+            };
+          },
         updateSkill: (state, action) => {
             state.skill = action.payload
         },

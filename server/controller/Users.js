@@ -92,7 +92,7 @@ exports.verifyOtp = async (req, res) => {
 
 
 exports.signup = async (req, res) => {
-  
+  console.log("first", req.body)
   try {
     const {
       Full_Name,
@@ -121,6 +121,7 @@ exports.signup = async (req, res) => {
    
 
     const existingUser = await Profile.findOne({ Email: Email });
+    console.log("existingUser",existingUser)
     if (existingUser !== null) {
       return res.status(400).json({
         message: "Email Already Exists",
@@ -143,6 +144,7 @@ exports.signup = async (req, res) => {
       password: hashedPassword,
       SavedJobs:[]
     });
+    console.log("profile",profile)
  
    // create alert message
      await Alert.create({
@@ -173,7 +175,9 @@ exports.signup = async (req, res) => {
 
 exports.login=async(req,res)=>{
   try{
+    console.log("first", req.body)
       const {email,password}=req.body;
+    
       //validation
       if(!email || !password){
         return  res.status(401).json({

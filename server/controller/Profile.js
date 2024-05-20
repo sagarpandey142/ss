@@ -120,3 +120,32 @@ exports.FindByEmail=async(req,res)=>{
       })
     }
 }
+
+exports.FindIfEmailExist = async (req, res) => {
+  console.log("email", req.body);
+  const { Email } = req.body;
+  try {
+  
+    const userProfile = await Profile.findOne({ Email });
+
+    if (userProfile) {
+     
+      return res.status(200).json({
+        success: true,
+        message: "Email exists",
+        userProfile: userProfile 
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "Email does not exist"
+      });
+    }
+  } catch (error) {
+    console.error("Error checking email existence:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while checking email existence"
+    });
+  }
+};

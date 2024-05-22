@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/components/pages/ProfilePage/Profile.tsx"
-  ],
+, "src/app/api/auth/[auth0]/[...auth0].js", "src/api/hello.js"  ],
   "exclude": [
     "node_modules"
   ]

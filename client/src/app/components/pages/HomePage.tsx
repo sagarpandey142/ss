@@ -1,6 +1,6 @@
 import front from '../../Assets/front.jpg';
 import Image from 'next/image';
-import Navbar from '../commonPage/Navbar';
+import Navbar from '../Navbar';
 
 const HomePage = () => {
     return (

@@ -14,12 +14,14 @@ import CreateProfile from './components/pages/CreateProfile/page';
 import DashboardPage from '@/app/components/pages/DashboardPage';
 import Profile from './components/pages/ProfilePage/Profile';
 import { usePathname } from 'next/navigation';
+import HomePage from "../app/components/pages/HomePage"
+import CreateProjectForm from "./components/pages/CreateProject/page"
 
 const Home = () => {
   return (
 
       <div>
-        <SignIn />
+        <HomePage />
      
       </div>
    

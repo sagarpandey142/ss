@@ -4,10 +4,16 @@ import Link from 'next/link';
 import { BsBagDashFill } from "react-icons/bs";
 import { IoIosSearch } from "react-icons/io";
 import CountrySelect from './CountrySelect'; 
+import { DecodedTokenHandler } from '@/app/Services/ProfileHanlder';
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const Navbar = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [jobTitle, setJobTitle] = useState('');
+  const { loginWithRedirect } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { logout } = useAuth0();
 
   const handleCountryChange = (event:any) => {
     setSelectedCountry(event.target.value);
@@ -17,9 +23,9 @@ const Navbar = () => {
     setJobTitle(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle form submission
-  };
+   const token  = localStorage.getItem('token');
+
+   console.log("token", token);
 
   return (
     <div className="flex flex-col gap-4 text-gray-700 items-center     ">
@@ -49,9 +55,24 @@ const Navbar = () => {
             <span>Customer Support</span>
           </Link>
         </li>
+        {
+          isAuthenticated ? (
+            <li>
+                <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                  Log Out
+                </button>
+            </li>
+          ):(
+            <li>
+            <button onClick={() => loginWithRedirect()}>Log In</button>
+            </li>
+            )
+        }
+        
       </ul>
 
-      <div className='w-8/12  flex mt-2  p-3 justify-between  '>
+
+      <div className='w-11/12  flex mt-2   justify-between  '>
         <div className='flex items-center gap-3'>
           <BsBagDashFill style={{color: '007AE9' , fontSize: '28px'}}/>
           <p className='font-bold text-2xl text-slate-800'>Copartner</p>
@@ -67,14 +88,24 @@ const Navbar = () => {
           </div>
         </div>
         
-        <div className='flex gap-4'>
-          <button className=' border-[3px] border-slate-300 p-3 px-8 py-3 rounded-xl text-[#007AE9] font-bold '>
-            Sign In
-          </button>
-          <button className=' border-2 p-3 px-8 py-3 rounded-xl bg-[#007AE9] text-white '>
-            Post A Job
-          </button>
-        </div>
+        {
+          !token ? (
+            <div className='flex gap-4'>
+              <button className=' border-[3px] border-blue-400 px-3 py-1 rounded-xl text-[#007AE9] font-bold '>
+                Sign In
+              </button>
+              <button className=' border-2 px-3 py-2 rounded-xl bg-[#007AE9] text-white '>
+                Post A Job
+              </button>
+            </div>
+          ):(
+            <div className='flex'>
+              <button className=' border-2 px-4 py-2 rounded-xl bg-[#007AE9] text-white '>
+                Post A Job
+              </button>
+            </div>
+          )
+        }
       </div>
     </div>
   );

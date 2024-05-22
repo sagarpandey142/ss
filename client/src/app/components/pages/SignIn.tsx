@@ -1,11 +1,15 @@
+"use client";
 import React, { useState } from 'react';
-import { loginHandler } from '@/app/Services/operations/SignupHandler';
+import { login } from '@/app/Services/operations/generateAndVerifyOTP';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { RootState } from '@/GlobalRedux/store';
+import { useDispatch } from 'react-redux';
+import { updateSignupData, updateToken } from '@/GlobalRedux/Features/Counter/signupReducer';
+
 
 const SignIn = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,27 +19,29 @@ const SignIn = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    console.log("hello")
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { email, password } = formData;
     
+    if (!email || !password) {
+      toast.error('All fields are required');
+      return;
+    }
+
     try {
-      console.log("first");
-      console.log("formdata", formData);
-      const {email} = formData;
-      const {password} = formData
-      console.log("email, pass", email, password);
-      if(!email || !password){
-        console.log("all the field are not given")
-      }
-      const response = await loginHandler(email, password);
-      console.log("response", response)
-      // Assuming response contains a success field or token
-      if (response.success) {
+      const response = await login(email, password);
+
+      if (response?.data?.token) {
+        const token = response.data.token;
+        dispatch(updateToken(token));
+        dispatch(updateSignupData(email));
+        localStorage.setItem('token', token);
         toast.success('Login successful');
-        // Handle successful login, e.g., redirect or save token
+       
+
+        // router.push('/dashboard'); // Redirect to a desired route after login
       } else {
-        toast.error(response.message || 'Login failed');
+        toast.error(response?.message || 'Login failed');
       }
     } catch (error) {
       toast.error('An error occurred during login');
@@ -80,8 +86,7 @@ const SignIn = () => {
             />
           </div>
           <div className="flex items-center justify-between">
-            
-            <div className="text-sm" onClick={()=>router.push("/components/pages/RecoverAcc")}>
+            <div className="text-sm" onClick={() => router.push("/components/pages/RecoverAcc")}>
               <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
                 Forgot your password?
               </a>

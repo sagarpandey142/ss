@@ -1,8 +1,10 @@
-// _app.js or _app.tsx
-import "./globals.css"
+import "./globals.css";
 import { Providers } from "../GlobalRedux/provider";
 import { Inter } from "next/font/google";
-import {Toaster} from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
+import { Auth0Provider } from '@auth0/auth0-react';
+import React, { createContext } from 'react';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,13 +15,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <Providers>
-    <html lang="en">
-      <body className={inter.className}>
-        <Toaster  />
-        {children}
-      </body>
-    </html>
-    </Providers>
+    <Auth0Provider
+    domain="dev-ti7s73lhwxagdtky.us.auth0.com"
+    clientId="yNzeyg0bUERVTV7YqlGl7kcCDSjZ8gT2"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+        <Providers>
+          <html lang="en">
+            <body className={inter.className}>
+              <Toaster />
+              {children}
+            </body>
+          </html>
+        </Providers>
+    </Auth0Provider>
   );
 }

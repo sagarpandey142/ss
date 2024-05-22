@@ -61,16 +61,4 @@ export const GetUserDetail=async(email)=>{
     }
 }
 
-export const loginHandler = async(email: string,  password: string ) => {
-    console.log("first", email, password)
-    try{
-        console.log("try")
-        const response = await axios.post(SignupRoute.login, {email, password})
-        console.log("response", response);
-        return response;
-    }catch(error){
-        console.log("error", error)
-    }
-}
-
 

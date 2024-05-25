@@ -19,9 +19,13 @@ export const  findProjectById=async(id:String)=>{
      }
 }
 
-export const  addSavedProject = async(email,_id) => {
+export const  addSavedProject = async(_id:String,token:String) => {
     try{
-        const response = await axios.post(ProjectApiDetail.addSavedProject,{Email:email, projectId:_id});
+        const response = await axios.post(ProjectApiDetail.addSavedProject,{ projectId:_id},{
+            headers: {
+                Authorization : `Bearer ${token}`,
+             }
+        });
         console.log("response of recent jobs", response);
         if(response){
             return response;
@@ -31,14 +35,18 @@ export const  addSavedProject = async(email,_id) => {
     }
 }
 
-export const  RemoveSavedProject = async(Email,ProjectId) => {
+export const  RemoveSavedProject = async(ProjectId:String,token:String) => {
     try{
-        const response = await axios.post(ProjectApiDetail?.RemoveSavedProject,{Email,ProjectId});
+        const response = await axios.post(ProjectApiDetail?.RemoveSavedProject,{ProjectId},{
+            headers: {
+                Authorization : `Bearer ${token}`,
+             }
+        });
         if(response){
             return response;
         }
     }catch(error){
-        console.log("error", error.message);
+        console.log("error", error);
     }
 }
 

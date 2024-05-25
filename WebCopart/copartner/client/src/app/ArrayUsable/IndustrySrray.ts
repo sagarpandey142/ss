@@ -1,4 +1,4 @@
-export constIndustryArray=[
+export const IndustryArray=[
     "All Category",
     "Development",
     "Business",
@@ -6,7 +6,7 @@ export constIndustryArray=[
     "It & Software"
 ]
 
-export constProjectLength=[
+export const ProjectLength=[
      "Large",
      "medium",
      "Small",

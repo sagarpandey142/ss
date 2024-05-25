@@ -9,7 +9,7 @@ import Footer from '../../commonPage/Footer';
 import { AiFillExperiment } from "react-icons/ai";
 import { IoMapSharp } from "react-icons/io5";
 import { FaSuitcase, FaBookmark } from "react-icons/fa6";
-import { DecodedTokenHandler, GetUserDetail } from '../../../Services/ProfileHanlder';
+import {  GetUserDetail } from '../../../Services/operations/ProfileHandler';
 import { ToastContainer, toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
 import { updateProjectDescriptionData } from '@/GlobalRedux/Features/ProjectSlice'
@@ -24,8 +24,8 @@ const Page = () => {
   const projectId = searchParams.get("projectid");
   const dispatch=useDispatch();
   const projectPublished = useSelector((state) => state.ProjectSlice.ProjectPublished);
-  const projectDescriptionData = useSelector((state) => state.ProjectSlice.ProjectDescriptionData);
-  const[suggestProject,setSuggestProject]=useState([]);
+  const[loading,setloading]=useState(false);
+
   
   useEffect(() => {
 
@@ -34,13 +34,11 @@ const Page = () => {
 
   }, []);
 
-  console.log("userdata",projectData)
   const getUserDetails = async () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const emailInfo = await DecodedTokenHandler(token);
-        const userDetailResponse = await GetUserDetail(emailInfo.data.Email);
+        const userDetailResponse = await GetUserDetail(token);
         setUserData(userDetailResponse.data.response);
         if (userDetailResponse.data.response) {
           const savedJobs = userDetailResponse.data.response.SavedJobs || [];
@@ -54,7 +52,7 @@ const Page = () => {
   };
 
   const getProjectDetails = async () => {
-    const toastId=toast.loading("Loading");
+    setloading(true);
     try {
       if (projectId) {
         const backendResponse = await findProjectById(projectId);
@@ -64,17 +62,18 @@ const Page = () => {
     } catch (error) {
       console.error('Error fetching project details:', error);
     }
-    toast.dismiss(toastId)
+   setloading(false);
   };
 
   const handleSavedProject = async (projectId) => {
+    const token=localStorage.getItem("token")
     try {
       if (isSaved) {
-        await RemoveSavedProject(userData?.Email, projectId);
+        await RemoveSavedProject( projectId,token);
         setIsSaved(false);
         toast.success("Project Removed SuccessFully")
       } else {
-        await addSavedProject(userData?.Email, projectId);
+        await addSavedProject( projectId,token);
         setIsSaved(true);
         toast.success("Project Saved SuccessFully")
       }
@@ -99,29 +98,19 @@ const Page = () => {
      toast.success("Project Applied SuccessFully Best Of Luck 🎉")
     toast.dismiss(toastid)
   }
- 
-  function filterBasesonFilterData(){
-    let filtered = [...ProjectPublished];
-    
-    let filteredByTechStack = [];
 
-    if (filterdata.techStack.length > 0) {
-        filteredByTechStack = filtered.filter((project) =>
-            filterdata.techStack.every((tech) => project?.Skill.includes(tech))
-        );
-    }
-
-    
-   setSuggestProject([...ProjectPublished,...filteredByTechStack]);
-}
-
-
-
-  
 
   return (
     <div className='w-full'>
       <Navbar />
+      {/*spinner*/}
+      {
+                loading==true && (
+                  <div className="fixed inset-0 flex justify-center items-center h-screen bg-gray-100 bg-opacity-90 z-50">
+                      <iframe src="https://lottie.host/embed/3854ae56-d940-4e39-b00a-90c6d18a90f2/j4pg2cwMEq.json" style={{ width: '300px', height: '300px' }}></iframe>
+                  </div>
+                )
+         }
       <div className='bg-gray-200 p-5'>
         <div className='flex w-8/12 mx-auto justify-between'>
           <div className='font-bold text-lg'>Job Details</div>
@@ -205,9 +194,10 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className='mt-10 flex justify-between'>
+        <div className='  mt-10 flex flex-col justify-between '>
           <p className='text-2xl text-slate-900 font-bold'>Related Jobs</p>
-           <MainCard CardData={suggestProject} />
+           <MainCard CardData={projectPublished.slice(0,2)} />
+           
         </div>
       </div>
       <Footer />

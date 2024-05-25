@@ -1,6 +1,7 @@
 "use client"
 import { DecodedTokenHandler, GetUserDetail } from '@/app/Services/ProfileHanlder';
 import DashboardPage from '@/app/components/commonPage/DashboardPage';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { BsSuitcaseLgFill } from 'react-icons/bs';
@@ -8,12 +9,12 @@ import { CiBookmarkMinus } from 'react-icons/ci';
 import { FaArrowRight } from "react-icons/fa";
 
 
-const page = ({userData}) => {
+const page = ({userData,setclicktrack}) => {
     
     const router=useRouter();
 
     const handleNavigate=()=>{
-         router.push("/components/pages/setting")
+        setclicktrack(3);
     }
 
   return (
@@ -58,13 +59,14 @@ const page = ({userData}) => {
            
            {/*compiments*/}
              <div className='w-11/23 mt-4 bg-red-400 p-9 rounded-xl font-semibold flex justify-between items-center'>
-                  
-                  <div>
-                       <div>
-                       
+                        <div>
+                            <img src={userData?.ProfileImage} className='rounded-full h-[4rem] w-[4rem] object-cover'/>
                        </div> 
-                        <p className=' text-white font-semibold'>Welcome to our community! We're excited to have you with us and look forward to seeing you thrive</p>
-                        <p className=' text-white font-semibold'>Complete your profile to unlock more opportunities and connect with like-minded professionals</p>
+                  <div  className=' flex  gap-4 rounded-full'>
+                        <div className=' flex flex-col gap-2'>
+                            <p className=' text-white font-semibold'>Welcome to our community! We're excited to have you with us and look forward to seeing you thrive</p>
+                            <p className=' text-white font-semibold'>Complete your profile to unlock more opportunities and connect with like-minded professionals</p>
+                        </div>
                   </div>
                   <div className=' bg-white p-4 rounded-xl cursor-pointer' onClick={handleNavigate}>
                        <p className=' text-red-500 flex gap-2 items-center'>Edit Profile

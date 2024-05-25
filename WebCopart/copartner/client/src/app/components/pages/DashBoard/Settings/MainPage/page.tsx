@@ -2,8 +2,11 @@
 import React, { useState } from 'react';
 import { TabsArray } from '@/app/ArrayUsable/TabsArray';
 import Personalpage from "../Personal/Personalpage"
+import ProfilePage from "../Profile/page"
+import Socialpage from "../Socialinks/page"
 
-const Setting = ({ userData }) => {
+
+const page = ({ userData }) => {
     const [clickable, setClickable] = useState(0);
 
     return (
@@ -31,10 +34,16 @@ const Setting = ({ userData }) => {
                                   <Personalpage userData={userData}/>
                              </div>
                          ) : (
-                             <div>
-
-                             </div>
-                         )
+                             clickable==1 ? (
+                                 <ProfilePage userData={userData}/>
+                             ) : (
+                                clickable==2 ? (
+                                    <Socialpage userData={userData}/>
+                                ) : (
+                                     <div></div>
+                                )
+                             )
+                         ) 
                      }
                 </div>
             </div>
@@ -42,4 +51,4 @@ const Setting = ({ userData }) => {
     );
 }
 
-export default Setting;
+export default page;

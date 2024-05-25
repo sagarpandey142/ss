@@ -2,18 +2,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { BsBagDashFill } from "react-icons/bs";
-import { IoIosSearch } from "react-icons/io";
-import CountrySelect from './CountrySelect'; 
-import { DecodedTokenHandler } from '@/app/Services/ProfileHanlder';
-import { useAuth0 } from "@auth0/auth0-react";
+import CountrySelect from './commonPage/CountrySelect'; 
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { HandleAuth } from '@auth0/nextjs-auth0';
 
 
 const Navbar = () => {
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(''); 
   const [jobTitle, setJobTitle] = useState('');
-  const { loginWithRedirect } = useAuth0();
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  const { logout } = useAuth0();
+  const { user, error, isLoading} = useUser(); 
 
   const handleCountryChange = (event:any) => {
     setSelectedCountry(event.target.value);
@@ -55,22 +52,7 @@ const Navbar = () => {
             <span>Customer Support</span>
           </Link>
         </li>
-        {
-          isAuthenticated ? (
-            <li>
-                <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-                  Log Out
-                </button>
-            </li>
-          ):(
-            <li>
-            <button onClick={() => loginWithRedirect()}>Log In</button>
-            </li>
-            )
-        }
-        
       </ul>
-
 
       <div className='w-11/12  flex mt-2   justify-between  '>
         <div className='flex items-center gap-3'>
@@ -87,8 +69,17 @@ const Navbar = () => {
             <input className=' border-[2px] border-slate-300 p-4 w-[35rem] outline-none rounded-lg' placeholder='Job Title, Keyword, Country' value={jobTitle} onChange={handleJobTitleChange} />
           </div>
         </div>
+        <div>
+          {
+            user ? (
+              <a href='/api/auth/logout'>Logout</a>
+            ):(
+              <a href='@/auth/login'>Login</a>
+            )
+          }
+        </div>
         
-        {
+        {/* {
           !token ? (
             <div className='flex gap-4'>
               <button className=' border-[3px] border-blue-400 px-3 py-1 rounded-xl text-[#007AE9] font-bold '>
@@ -105,10 +96,12 @@ const Navbar = () => {
               </button>
             </div>
           )
-        }
+        } */}
       </div>
     </div>
   );
 };
 
 export default Navbar;
+
+    

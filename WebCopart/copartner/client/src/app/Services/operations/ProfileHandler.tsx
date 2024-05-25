@@ -1,39 +1,87 @@
 import axios from 'axios';
 import {Profile, profileApiDetail} from '../Api';
+import toast from 'react-hot-toast';
 
-export const FindByEmail = async (email:string,token:String) => {
 
+export const UpdateProfile = async(data,token:String) => {
     try{
-        const response = await axios.post(Profile.profileInfo, {Email:email},{
+        const toastid=toast.loading("Loading...");
+        const response = await axios.put(profileApiDetail.updateProfileData, {data},{
             headers: {
-                'Authorization': `Bearer ${token}`,
-              }
-        });
-        console.log("response", response);
+               Authorization : `Bearer ${token}`,
+            }
+     });
+     toast.dismiss(toastid)
         if(response){
             return response;
         }
     }catch(error){
         console.log("error", error);
+        toast.error(`error occured : ${error}`)
     }
 }
 
-export const UpdateProfile = async(data:string) => {
+export const UpdateProfilePicture = async(file,token) => {
     try{
-        const response = await axios.put(Profile.UpdateProfile, data);
-        console.log("response hai baba abhi ka", response);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'at3gf6rj')
+        formData.append('folder', 'Copartner');
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dtd8peoae/image/upload", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+    });
+       const sendSecureUrlToBac=await axios.put(profileApiDetail.UpdateProfilePic,{secure_url:response.data.secure_url},{
+        headers: {
+            Authorization : `Bearer ${token}`,
+         }
+       })
         if(response){
             return response;
         }
     }catch(error){
-        console.log("error", error.messege);
+        console.log("erro", error);
     }
 }
 
-export const DeleteProfile = async(data:string) => {
-    console.log("data",data)
+export const UpdateResume= async(file,token) => {
+   
     try{
-        const response = await axios.delete(Profile.DeleteProfile, data);
+     const toastid= toast.loading("Loading...");
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'akr17cvp')
+        formData.append('folder', 'Copartner');
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dtd8peoae/image/upload", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+    });
+     console.log("resume",response)
+
+       const sendSecureUrlToBac=await axios.put(profileApiDetail.updateResume,{secure_url:response.data.secure_url},{
+        headers: {
+            Authorization : `Bearer ${token}`,
+         }
+       })
+       toast.dismiss(toastid);
+        if(response){
+            return sendSecureUrlToBac;
+        }
+
+    }catch(error){
+        console.log("erro", error);
+        toast.error(`error occured : ${error}`)
+    }
+   
+}
+
+
+export const DeleteProfile = async(data:string) => {
+
+    try{
+        const response = await axios.delete(profileApiDetail.DeleteProfile, data);
         console.log("response hai baba abhi ka", response);
         if(response){
             return response;
@@ -46,7 +94,7 @@ export const DeleteProfile = async(data:string) => {
 
 export const UpdatePassword = async (Email:string,newPassword:string) => {
     try{
-        const response = await axios.post(Profile.updatepassword, {Email,newPassword});
+        const response = await axios.post(profileApiDetail.updatepassword, {Email,newPassword});
         if(response){
             return response;
         }

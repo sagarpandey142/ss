@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { updateSignupData, updateToken } from '@/GlobalRedux/Features/Counter/signupReducer';
 
-
 const SignIn = () => {
   const router = useRouter();
   const dispatch = useDispatch();

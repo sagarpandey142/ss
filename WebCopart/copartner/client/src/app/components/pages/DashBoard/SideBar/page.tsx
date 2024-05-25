@@ -17,7 +17,7 @@ const iconMap = {
 
 const Page = ({clicktrack,setclicktrack}) => {
   return (
-    <div className=' w-[25rem] border-r-[3px] border-slate-300   overflow-hidden '>
+    <div className=' w-[25rem]  overflow-hidden '>
       <p className=' mt-8 text-slate-600 uppercase text-lg font-semibold'>Candidate Dashboard</p>
       <div className=' flex flex-col  mt-5'>
         {DashboardArray.map((data, index) => {

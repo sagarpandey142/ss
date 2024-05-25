@@ -5,7 +5,6 @@ import cardpic3 from "../../../app/Assets/cardpic3.png";
 import Image from 'next/image';
 import { Tilt } from "react-tilt";
 import { FaArrowRight } from "react-icons/fa";
-import '@fontsource/poetsen-one'; 
 import { Pagination } from '@mui/material';
 import Link from 'next/link'; 
 
@@ -15,7 +14,7 @@ const MainCard = ({ CardData = [] }) => {
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = CardData.slice(indexOfFirstCard, indexOfLastCard);
-  const router = useRouter(); // Use useRouter from Next.js
+  const router = useRouter(); 
 
   const getTimeDifference = (createdAt) => {
     const currentTime = new Date();
@@ -42,23 +41,30 @@ const MainCard = ({ CardData = [] }) => {
 
   return (
     <div className='w-10/12 mx-auto mt-9'>
+         
       <div className='w-12/12 mx-auto flex flex-wrap gap-2 justify-between'>
+       
         {currentCards.map((data, index) => {
           const actualIndex = indexOfFirstCard + index;
           return (
-            <Tilt key={actualIndex} className='bg-white w-[32rem] mx-auto p-2 flex flex-col' >
+            <div key={actualIndex} className='bg-white w-[32rem] mx-auto p-2 flex flex-col cursor-pointer' onClick={()=>{
+              handlePageNavigation(data._id)
+          }} >
               <Image src={actualIndex % 2 === 0 ? cardpic : cardpic3} className='h-[17rem] rounded-t-lg'/>
-              <div className='rounded-b-lg border-[3px] border-slate-300' onClick={()=>{
-                  handlePageNavigation(data._id)
-              }} >
+              <div className='rounded-b-lg border-[3px] border-slate-300'  >
                 <div className='w-11/12 mt-4' >
                   <div className='flex justify-between items-center ml-7'>
                     <div className='uppercase text-slate-500 font-semibold text-lg'>{data?.profileId?.Professional_Role}</div>
                     <div className='uppercase text-slate-600 text-md pr-3'>{getTimeDifference(data?.createdAt)}</div>
                   </div>
                   <div className='mt-2 flex flex-col gap-3 ml-7'>
-                    <div className='text-2xl text-slate-800 font-bold w-[80%]'>{data?.projectName}</div>
-                    <div className='text-xl w-[11/12] font-poetsen-one'>{data?.projectDescription}</div> {/* Apply Poetsen One font */}
+                    <div className='text-2xl text-slate-800 font-bold w-11/12'>{data?.projectName}</div>
+                    <div className='text-xl w-11/12 '>
+                        {data?.projectDescription.length > 90 
+                            ? `${data?.projectDescription.slice(0, 90)}...` 
+                            : data?.projectDescription}
+                    </div>
+
                   </div>
                   <div className='flex justify-between mt-3 text-lg font-semibold text-[#007AE9] mb-4 ml-7'>
                     <div>{data?.profileId?.name}</div>
@@ -69,7 +75,7 @@ const MainCard = ({ CardData = [] }) => {
                   </div>
                 </div>
               </div> 
-            </Tilt>
+            </div>
           );
         })}
       </div>

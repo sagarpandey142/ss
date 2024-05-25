@@ -18,16 +18,18 @@ import Switch from '@mui/material/Switch';
 import Autosuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from "react-redux";
 import { updateProjectSlice } from "@/GlobalRedux/Features/ProjectSlice";
+import Navbar from "../../commonPage/Navbar";
+import Footer from "../../commonPage/Footer";
 
 const page = () => {
    
     const[filterOpen,setFilterOpen]=useState(false);
+    const[ProjectPublished,setProjectPublished]=useState([])
     const[FilterBasesOnTitle,setFilterBasesOnTitle]=useState("");
     const[FilterBasesOnLocation,setFilterBasesOnLocation]=useState("")
     const locations = ["Delhi, India", "Odisha, India", "Mumbai, India", "Bangalore, India", "Chennai, India"];
     const [locationSuggestions, setLocationSuggestions] = useState([]);
     const dispatch=useDispatch();
-    const{ProjectPublished}=useSelector((slices)=>slices.ProjectSlice)
     const [filterdata,setFilterData]=useState({
       Industry:"",
       ProjectLength:"",
@@ -38,6 +40,7 @@ const page = () => {
   
     const getAllprojectPublishes=async()=>{
          const responseromBackend=await FetchProject();
+         setProjectPublished(responseromBackend?.data?.projects)
          dispatch(updateProjectSlice(responseromBackend?.data?.projects))
     }
 
@@ -86,6 +89,7 @@ const page = () => {
 
              
              if(filtered.length<=0) return;
+            
              setProjectPublished([...filtered,...BasesOnLocation,...ProjectPublished]);
          }
     }
@@ -110,7 +114,7 @@ const page = () => {
               filterdata.techStack.every((tech) => project?.Skill.includes(tech))
           );
       }
-
+   
       if (filterdata.ifRecentSelected) {
           filteredByRecent = filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       }
@@ -127,6 +131,7 @@ const page = () => {
    
   return (
      <div className='w-full '>
+           <Navbar/>
            <div className=' bg-gray-200 p-5'>
                       <div className=' flex w-8/12 mx-auto justify-between'>
                          <div className='font-bold text-lg'>Find Projects</div>
@@ -134,13 +139,30 @@ const page = () => {
                       </div>
            </div>
 
+         {/*spinner*/}
+            {
+               ProjectPublished.length <= 0 && (
+                  <div className="fixed inset-0 flex justify-center items-center h-screen bg-gray-100 bg-opacity-90 z-50">
+                        <iframe src="https://lottie.host/embed/3854ae56-d940-4e39-b00a-90c6d18a90f2/j4pg2cwMEq.json" style={{ width: '300px', height: '300px' }}></iframe>
+                  </div>
+               )
+            }
+
+             
             <div className='w-8/12 mx-auto mt-7' >
                   <div className='flex gap-3 border-[2px] border-slate-300 p-2 rounded-xl'> 
                         <div className=' flex items-center gap-3 text-xl border-r-[3px] border-slate-300  w-[40%] '>
                            <CiSearch className=' text-4xl text-[#007AE9]' />
-                           <input placeholder='Search by : job title,position,KeyWords...' onChange={(e)=>{
+                           <input placeholder='Search by : job title,position,KeyWords...' value={FilterBasesOnTitle} onChange={(e)=>{
                                 setFilterBasesOnTitle(e.target.value)
-                           }}  className='outline-none text-slate-800 text-2xl'/>
+                           }
+                           
+                           }  className='outline-none text-slate-800 text-2xl'
+                           onKeyDown={(e)=>{
+                              if(e.key=='Enter'){
+                                 setProjectPublishedBasedOnFilter();
+                              }
+                           }}/>
                         </div>
                         <div className=' flex items-center gap-3 text-xl w-[40%] '>
                            <IoLocationSharp className=' text-3xl text-[#007AE9]'/>
@@ -173,7 +195,9 @@ const page = () => {
                      <div className='text-slate-400 text-xl'>Popular Searches:</div>
                      {
                            PopularSearches.map((data,index)=>(
-                                 <div key={index} className='font-semibold cursor-pointer'>
+                                 <div key={index} className='font-semibold cursor-pointer' onClick={()=>{
+                                    setFilterBasesOnTitle(data);
+                                 }}>
                                     <div  className=' text-lg text-slate-500'>{data}</div>
                                  </div>
                            ))
@@ -193,11 +217,27 @@ const page = () => {
                                    setFilterOpen(false);
                               }}/>
                          </div>
-                         {/*active filters*/}
-                         <div className=" border-b-2 border-slate-300  ">
-
-                         </div>
-                          
+                       
+                         {/* Display selected filters */}
+                        { (filterdata.Industry || filterdata.ProjectLength || filterdata.techStack.length > 0 || filterdata.ifRecentSelected) &&
+                           <div className=" p-4 mt-4">
+                              <div className="text-lg font-semibold">Selected Filters:</div>
+                              <div className="mt-2 flex gap-2 flex-wrap">
+                                 {filterdata.Industry && <div className="bg-slate-200 text-slate-800  w-fit h-fit p-2 rounded-lg font-semibold"> {filterdata.Industry}</div>}
+                                 {filterdata.ProjectLength && <div  className="bg-slate-200 text-slate-800  w-fit h-fit p-2 rounded-lg font-semibold">{filterdata.ProjectLength}</div>}
+                                 {filterdata.techStack.length > 0 && (
+                                       <div className=" mt-2">
+                                          <div className=" text-slate-800 text-xl font-semibold">Selected Tech Stack</div>
+                                          {filterdata.techStack.map((tech, index) => (
+                                             <div  className="bg-slate-200 text-slate-800  w-fit h-fit p-2 rounded-lg font-semibold" key={index}>{tech}</div>
+                                          ))}
+                                       </div>
+                                 )}
+                                 {filterdata.ifRecentSelected && <div className="bg-slate-200 text-slate-800  w-fit h-fit p-2 rounded-lg font-semibold">Recent Projects</div>}
+                              </div>
+                           </div>
+                     } 
+                                       
                           {/*indutry*/}
                          <div className=" mt-4 p-6  border-b-2 border-slate-300">
                               <div className="text-lg text-[#007AE9] font-semibold">Industry</div>
@@ -272,6 +312,8 @@ const page = () => {
 
              {/*main cards*/}
              <MainCard CardData={ProjectPublished}/>
+
+             <Footer/>
             
      </div> 
   )

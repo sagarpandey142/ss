@@ -1,4 +1,4 @@
-export constSkillRequired=[
+export const SkillRequired=[
     {name:"React.js",icon:"+"},
     {name:"Express.js",icon:"+"},
     {name:"Node.js",icon:"+"},

@@ -1,5 +1,5 @@
 "use client"
-import Navbar from '../commonPage/Navbar'
+import Navbar from '../../api/auth/Navbar'
 import 'tailwindcss/tailwind.css';
 import HomePage from "../../HomePage"
 import Page from "../PrivacyPolicy/page"

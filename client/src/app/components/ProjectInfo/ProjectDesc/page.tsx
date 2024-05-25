@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FetchProjectById, RemoveSavedProject, addSavedProject } from "../../../Services/ProjectHandler";
-import Navbar from '@/app/components/commonPage/Navbar';
+import Navbar from '@/app/api/auth/Navbar';
 =======
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'

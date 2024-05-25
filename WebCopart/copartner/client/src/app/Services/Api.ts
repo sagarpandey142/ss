@@ -1,5 +1,5 @@
 // projectApi.ts
-const BACKEND_URL: string = "https://copart-r61c.onrender.com/";
+const BACKEND_URL: string = "https://copart-backend.onrender.com/";
 
 
 
@@ -19,7 +19,7 @@ export const  generateVerifyOTP = {
 export const  ProjectApiDetail = {
   FetchProject: BACKEND_URL + "v1/projects/findProjects",
   FetchProjectById: BACKEND_URL + "v1/projects/findProjectById",
-  addSavedProject: BACKEND_URL+"v1/addSavedProject",
+  addSavedProject:BACKEND_URL+"v1/addSavedProject",
   RemoveSavedProject:BACKEND_URL+"v1/removeSavedProject",
   applyProject:BACKEND_URL+"v1/projects/AppliedProject"
 };
@@ -27,4 +27,7 @@ export const  ProjectApiDetail = {
 export const  profileApiDetail={
   profileInfo:BACKEND_URL+"v1/FindByEmail" ,
   DecodedApi:BACKEND_URL+"v1/DecodToken",
+  UpdateProfilePic:BACKEND_URL+"v1/updateProfilePicture",
+  updateProfileData:BACKEND_URL+"v1/updateProfile",
+  updateResume:BACKEND_URL+"v1/updateResume"
 }

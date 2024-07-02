@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import CodeMirror from '@uiw/react-codemirror'; // Default export
+import CodeMirror from '@uiw/react-codemirror';
 import { basicSetup } from '@codemirror/basic-setup';
 import { python } from '@codemirror/lang-python';
 import { cpp } from '@codemirror/lang-cpp'; // Using C++ for C language support
@@ -13,7 +13,7 @@ const languageOptions = [
   { value: 'cpp', label: 'C++' },
   { value: 'java', label: 'Java' },
   { value: 'javascript', label: 'JavaScript' },
-  { value: 'c', label: 'C' } // Add C language option
+  { value: 'c', label: 'C' } // Ensure this is consistent with backend
 ];
 
 const defaultCodeSnippets = {
@@ -21,7 +21,7 @@ const defaultCodeSnippets = {
   cpp: `// C++ default code snippet\n#include <iostream>\n\nint main() {\n    std::cout << "Hello, world!" << std::endl;\n    return 0;\n}`,
   java: `// Java default code snippet\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}`,
   javascript: `// JavaScript default code snippet\nconsole.log("Hello, world!");`,
-  c: `/* C default code snippet */\n#include <stdio.h>\n\nint main() {\n    printf("Hello, world!\\n");\n    return 0;\n}` // Add default C code snippet
+  c: `/* C default code snippet */\n#include <stdio.h>\n\nint main() {\n    printf("Hello, world!\\n");\n    return 0;\n}` // Ensure this is consistent with backend
 };
 
 const App = () => {
@@ -56,7 +56,7 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/compile', {
+      const response = await axios.post('https://compiler-m00w.onrender.com/compile', {
         language: selectedLanguage,
         code: code,
         input: input
@@ -66,17 +66,7 @@ const App = () => {
         }
       });
 
-      const resultData = response.data.result;
-
-      if (resultData.output) {
-        setResult(resultData.output);
-      } else if (resultData.error) {
-        setResult(`Error: ${resultData.error}`);
-      } else if (resultData.memory || resultData.cpuTime) {
-        setResult(`Memory: ${resultData.memory}\nCPU Time: ${resultData.cpuTime}\nOutput: ${resultData.output}`);
-      } else {
-        setResult('Unknown result format');
-      }
+      setResult(response.data.result || 'No output received');
     } catch (error) {
       console.error('Error submitting code:', error);
       alert('There was an error submitting the code. Please try again.');

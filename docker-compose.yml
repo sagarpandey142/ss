@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  cpp-compiler:
+    build:
+      context: ./dockerfiles/cpp
+    container_name: cpp-compiler
+    command: ./myapp
+
+  java-compiler:
+    build:
+      context: ./dockerfiles/java
+    container_name: java-compiler
+    command: java Main
+
+  javascript-compiler:
+    build:
+      context: ./dockerfiles/javascript
+    container_name: javascript-compiler
+    command: node app.js
+
+  python-compiler:
+    build:
+      context: ./dockerfiles/python
+    container_name: python-compiler
+    command: python main.py

@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/mode-java';
-import 'ace-builds/src-noconflict/mode-c_cpp';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/theme-tomorrow';
+import Editor from '@monaco-editor/react';
 
 const languageOptions = [
   { value: 'python', label: 'Python' },
@@ -35,8 +29,8 @@ const App = () => {
     setCode(defaultCodeSnippets[newLanguage] || '');
   };
 
-  const handleCodeChange = (newCode) => {
-    setCode(newCode);
+  const handleCodeChange = (value) => {
+    setCode(value);
   };
 
   const handleInputChange = (event) => {
@@ -49,27 +43,54 @@ const App = () => {
       return;
     }
 
+    if (!selectedLanguage) {
+      alert('Please select a programming language!');
+      return;
+    }
+
     try {
-      const response = await axios.post('https://localhost:5000/compile', {
-        language: selectedLanguage,
-        code: code,
-        input: input
-      }, {
+      const backendUrl = 'http://localhost:5000';
+      const response = await fetch(`${backendUrl}/compile`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          language: selectedLanguage,
+          code: code,
+          input: input
+        })
       });
 
-      setResult(response.data.result || 'No output received');
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let resultData = '';
+
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          setResult(resultData);
+          return;
+        }
+
+        resultData += decoder.decode(value, { stream: true });
+        // Process partial data if needed
+        // For example, you can update a state here if you want to show partial results
+        reader.read().then(processText);
+      });
+
     } catch (error) {
       console.error('Error submitting code:', error);
-      alert('There was an error submitting the code. Please try again.');
+      alert(`There was an error submitting the code: ${error.message}`);
     }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Online Compiler with Ace Editor</h1>
+      <h1 className="text-2xl font-bold mb-4">Online Compiler</h1>
       <div className="mb-4">
         <label htmlFor="language" className="block text-sm font-medium text-gray-700">Select Language:</label>
         <select
@@ -87,16 +108,13 @@ const App = () => {
       </div>
       <div className="mb-4">
         <label htmlFor="code" className="block text-sm font-medium text-gray-700">Enter Code:</label>
-        <AceEditor
-          mode={selectedLanguage}
-          theme="tomorrow"
-          onChange={handleCodeChange}
-          value={code}
-          name="code-editor"
-          editorProps={{ $blockScrolling: true }}
-          className="border border-gray-300 rounded-md"
-          width="100%"
+        <Editor
           height="200px"
+          defaultLanguage={selectedLanguage}
+          value={code}
+          onChange={handleCodeChange}
+          theme="vs-dark"
+          className="border border-gray-300 rounded-md"
         />
       </div>
       <div className="mb-4">

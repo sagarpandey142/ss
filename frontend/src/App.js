@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import CodeMirror from '@uiw/react-codemirror';
-import { basicSetup } from '@codemirror/basic-setup';
-import { python } from '@codemirror/lang-python';
-import { cpp } from '@codemirror/lang-cpp'; // Using C++ for C language support
-import { java } from '@codemirror/lang-java';
-import { javascript } from '@codemirror/lang-javascript';
-import { oneDark } from '@codemirror/theme-one-dark';
+import Editor from '@monaco-editor/react';
 
 const languageOptions = [
   { value: 'python', label: 'Python' },
   { value: 'cpp', label: 'C++' },
   { value: 'java', label: 'Java' },
   { value: 'javascript', label: 'JavaScript' },
-  { value: 'c', label: 'C' } // Ensure this is consistent with backend
+  { value: 'c', label: 'C' }
 ];
 
 const defaultCodeSnippets = {
@@ -21,7 +14,7 @@ const defaultCodeSnippets = {
   cpp: `// C++ default code snippet\n#include <iostream>\n\nint main() {\n    std::cout << "Hello, world!" << std::endl;\n    return 0;\n}`,
   java: `// Java default code snippet\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}`,
   javascript: `// JavaScript default code snippet\nconsole.log("Hello, world!");`,
-  c: `/* C default code snippet */\n#include <stdio.h>\n\nint main() {\n    printf("Hello, world!\\n");\n    return 0;\n}` // Ensure this is consistent with backend
+  c: `/* C default code snippet */\n#include <stdio.h>\n\nint main() {\n    printf("Hello, world!\\n");\n    return 0;\n}`
 };
 
 const App = () => {
@@ -56,20 +49,42 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post('https://compiler-m00w.onrender.com/compile', {
-        language: selectedLanguage,
-        code: code,
-        input: input
-      }, {
+      const backendUrl = 'http://localhost:5000';
+      const response = await fetch(`${backendUrl}/compile`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          language: selectedLanguage,
+          code: code,
+          input: input
+        })
       });
 
-      setResult(response.data.result || 'No output received');
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let resultData = '';
+
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          setResult(resultData);
+          return;
+        }
+
+        resultData += decoder.decode(value, { stream: true });
+        // Process partial data if needed
+        // For example, you can update a state here if you want to show partial results
+        reader.read().then(processText);
+      });
+
     } catch (error) {
       console.error('Error submitting code:', error);
-      alert('There was an error submitting the code. Please try again.');
+      alert(`There was an error submitting the code: ${error.message}`);
     }
   };
 
@@ -93,19 +108,12 @@ const App = () => {
       </div>
       <div className="mb-4">
         <label htmlFor="code" className="block text-sm font-medium text-gray-700">Enter Code:</label>
-        <CodeMirror
-          value={code}
+        <Editor
           height="200px"
-          extensions={[
-            basicSetup,
-            selectedLanguage === 'python' && python(),
-            selectedLanguage === 'cpp' && cpp(),
-            selectedLanguage === 'java' && java(),
-            selectedLanguage === 'javascript' && javascript(),
-            selectedLanguage === 'c' && cpp(), // Fallback to C++ for C language
-          ].filter(Boolean)}
+          defaultLanguage={selectedLanguage}
+          value={code}
           onChange={handleCodeChange}
-          theme={oneDark}
+          theme="vs-dark"
           className="border border-gray-300 rounded-md"
         />
       </div>

@@ -1,0 +1,15 @@
+{
+    "kind": "collectionType",
+    "collectionName": "features",
+    "info": {
+      "name": "Feature",
+      "description": "A collection of features."
+    },
+    "attributes": {
+      "title": {
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+  
